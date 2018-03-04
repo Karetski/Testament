@@ -4,8 +4,11 @@ import XCTest
 class TestamentTests: XCTestCase {
     func testExample() {
         do {
-            let asd: String? = ""
-            let qwe = try Unwrapping(asd).make()
+            let optionalString: String? = ""
+            let _ = try Unwrapping(optionalString).make()
+
+            let anyInt: Any = 1337
+            let _ = try Casting(anyInt, to: Int.self).make()
         } catch { }
 
     }

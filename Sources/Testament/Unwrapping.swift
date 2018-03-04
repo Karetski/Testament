@@ -1,25 +1,9 @@
-import XCTest
-
-protocol Message {
-    var text: String { get }
-}
-
-struct ExecutionLocation {
-    let file: StaticString
-    let line: UInt
-
-    static var empty: ExecutionLocation {
-        return .init(file: "Unknown", line: 0)
-    }
-}
-
 public struct Unwrapping<Type> {
-
     private let instance: Type?
     private let isCustomMessageApplied: Bool
 
     public enum Error: Swift.Error {
-        case failedUnwrapping(Type.Type)
+        case failedUnwrapping(Type?)
     }
 
     private struct FailureMessage: Message {
@@ -38,16 +22,12 @@ public struct Unwrapping<Type> {
             return instance
         } else {
             if !isCustomMessageApplied {
-                testFail(
+                Generator.testFail(
                     message: FailureMessage(),
                     executionLocation: ExecutionLocation(file: file, line: line)
                 )
             }
-            throw Error.failedUnwrapping(Type.self)
+            throw Error.failedUnwrapping(instance)
         }
     }
-}
-
-func testFail(message: Message, executionLocation: ExecutionLocation) {
-    XCTFail(message.text, file: executionLocation.file, line: executionLocation.line)
 }
