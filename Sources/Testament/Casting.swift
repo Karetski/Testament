@@ -20,16 +20,15 @@ public struct Casting<Type> {
     }
 
     public func make(file: StaticString = #file, line: UInt = #line) throws -> Type {
-        if let castedInstance = instance as? Type {
-            return castedInstance
-        } else {
-            if !isCustomMessageApplied {
-                Generator.testFail(
-                    message: FailureMessage(),
-                    executionLocation: ExecutionLocation(file: file, line: line)
-                )
-            }
+        guard let castedInstance = instance as? Type else {
+            Assertion.fail(
+                message: FailureMessage(),
+                executionLocation: ExecutionLocation(file: file, line: line)
+            ).generate(
+                precondition: !isCustomMessageApplied
+            )
             throw Error.failedCasting(Type.self)
         }
+        return castedInstance
     }
 }

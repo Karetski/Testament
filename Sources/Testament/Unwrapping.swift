@@ -18,16 +18,15 @@ public struct Unwrapping<Type> {
     }
 
     public func make(file: StaticString = #file, line: UInt = #line) throws -> Type {
-        if let instance = instance {
-            return instance
-        } else {
-            if !isCustomMessageApplied {
-                Generator.testFail(
-                    message: FailureMessage(),
-                    executionLocation: ExecutionLocation(file: file, line: line)
-                )
-            }
+        guard let unwrappedInstance = instance else {
+            Assertion.fail(
+                message: FailureMessage(),
+                executionLocation: ExecutionLocation(file: file, line: line)
+            ).generate(
+                precondition: !isCustomMessageApplied
+            )
             throw Error.failedUnwrapping(instance)
         }
+        return unwrappedInstance
     }
 }
