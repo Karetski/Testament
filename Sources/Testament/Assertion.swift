@@ -1,5 +1,7 @@
 import XCTest
 
+typealias Message = String
+
 enum Assertion {
     case fail(message: Message, executionLocation: ExecutionLocation)
 
@@ -10,7 +12,7 @@ enum Assertion {
 
         switch self {
         case .fail(let message, let executionLocation):
-            XCTFail(message.text, file: executionLocation.file, line: executionLocation.line)
+            XCTFail(message, file: executionLocation.file, line: executionLocation.line)
         }
     }
 }

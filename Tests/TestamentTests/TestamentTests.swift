@@ -7,6 +7,8 @@ class TestamentTests: XCTestCase {
         ("testCasting", testCasting)
     ]
 
+    // TODO: Tests may cover more use cases!
+
     func testUnwrapping() {
         do {
             let optionalString: String? = "String"
@@ -18,7 +20,7 @@ class TestamentTests: XCTestCase {
     func testCasting() {
         do {
             let anyInt: Any = 1337
-            let int = try Casting(anyInt, to: Int.self).make()
+            let int: Int = try Casting(anyInt).make()
             XCTAssert(int == 1337)
         } catch { }
     }
