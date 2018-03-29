@@ -1,14 +1,14 @@
+public enum UnwrappingError: Swift.Error {
+    case unableToUnwrap(type: Any.Type)
+}
+
 public struct Unwrapping<Type> {
     private let instance: Type?
-    private let isCustomMessageApplied: Bool
+    private let isCustomAssertionApplied: Bool
 
-    public enum Error: Swift.Error {
-        case unableToUnwrap(instance: Type?)
-    }
-
-    public init(_ instance: Type?, isCustomMessageApplied: Bool = false) {
+    public init(_ instance: Type?, isCustomAssertionApplied: Bool = false) {
         self.instance = instance
-        self.isCustomMessageApplied = isCustomMessageApplied
+        self.isCustomAssertionApplied = isCustomAssertionApplied
     }
 
     public func make(file: StaticString = #file, line: UInt = #line) throws -> Type {
@@ -17,9 +17,9 @@ public struct Unwrapping<Type> {
                 message: "Unable to unwrap instance of \(Type.self)",
                 executionLocation: ExecutionLocation(file: file, line: line)
             ).generate(
-                precondition: !isCustomMessageApplied
+                precondition: !isCustomAssertionApplied
             )
-            throw Error.unableToUnwrap(instance: instance)
+            throw UnwrappingError.unableToUnwrap(type: Type.self)
         }
         return unwrappedInstance
     }
