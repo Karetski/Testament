@@ -1,8 +1,12 @@
 os:
   - linux
   - osx
-language: objective-c
+language: generic
+sudo: required
+dist: trusty
 osx_image: xcode9
-
+env: SWIFT_VERSION=4.0
+install:
+  - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 script:
-  swift test
+  - swift test
