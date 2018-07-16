@@ -4,8 +4,8 @@ import XCTest
 class TestamentTests: XCTestCase {
     static var allTests = [
         ("testUnwrapping", testUnwrapping),
-        ("testCasting", testCasting),
         ("testUnwrappingCustomAssertion", testUnwrappingCustomAssertion),
+        ("testCasting", testCasting),
         ("testCastingCustomAssertion", testCastingCustomAssertion)
     ]
 
