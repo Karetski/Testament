@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = "https://github.com/Karetski/Testament.git"
   s.license = { 
     :type => "Apache 2.0",
-    :file => "LICENSE.md" 
+    :file => "LICENSE" 
   }
 
   s.author = "Aliaksei Karetski"
