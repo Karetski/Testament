@@ -1,15 +1,22 @@
 # Testament
 
-Testament is a microframework that gives you convenient constructions to write correct **unit tests** for **optionals** and **casted types** in **Swift** programming language.
+Testament is a microframework that gives you convenient constructions to write correct **unit tests** for **optionals** and **casting types** in **Swift** programming language.
+
+TODO
 
 ## Installation
 
 ### CocoaPods
 
+TODO
+
 ### Swift Package Manager
+
+TODO
 
 ## Motivation
 
+TODO
 https://www.natashatherobot.com/unit-testing-optionals-in-swift-xctassertnotnil/
 
 ## License
