@@ -14,6 +14,10 @@ TODO
 
 TODO
 
+### Carthage
+
+If you want to use Testament via Carthage please see https://fuller.li/posts/using-swift-package-manager-with-carthage/
+
 ## Motivation
 
 TODO
