@@ -4,22 +4,22 @@ Testament is a microframework that gives you convenient constructions to write c
 
 ## Installation
 
-### CocoaPods
+#### CocoaPods
 
 Testament is available via CocoaPods, but only via manual pointing to Git repo. Full CocoaPods support will be available soon.
 ```
 pod 'Testament', :git => 'https://github.com/Karetski/Testament.git'
 ```
 
-### Swift Package Manager
+#### Swift Package Manager
 
 If you use Swift Package Manager, simply add Testament as a dependency of your package in `Package.swift`:
 ```
 .package(url: "https://github.com/Karetski/Testament.git", from: "1.0.0")
 ```
-### Carthage
+#### Carthage
 
-If you want to use Testament via Carthage please see https://fuller.li/posts/using-swift-package-manager-with-carthage/
+If you want to use Testament via Carthage please follow the [link.](https://fuller.li/posts/using-swift-package-manager-with-carthage/)
 
 ## Motivation
 
