@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source_files = "Sources/**/*.{swift,h,m}"
   s.source = { 
     :git => "https://github.com/Karetski/Testament.git", 
-    :tag => "v#{s.version}" 
+    :tag => "#{s.version}" 
   }
 
   s.framework = "XCTest"
