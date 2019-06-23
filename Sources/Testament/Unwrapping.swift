@@ -2,38 +2,23 @@ public enum UnwrappingError: Swift.Error {
     case unableToUnwrap(type: Any.Type)
 }
 
-/// Structure that represents test of unwrapping instance of `Type` with resulting unwrapped value.
-public struct Unwrapping<Type> {
-    private let instance: Type?
-    private let isCustomAssertionApplied: Bool
-
-    /// Instantiates unwrapping of `instance`.
-    ///
-    /// - Parameters:
-    ///   - instance: Instance to be unwrapped.
-    ///   - isCustomAssertionApplied: Flag that indicates need of custom test assertion. You shouldn't use it, generally.
-    public init(_ instance: Type?, isCustomAssertionApplied: Bool = false) {
-        self.instance = instance
-        self.isCustomAssertionApplied = isCustomAssertionApplied
+/// Asserts that an expression is not `nil`, and returns its unwrapped value. Generates a failure when `instance == nil`.
+/// - Parameter instance: Instance to be unwrapped.
+/// - Parameter message: An optional description of the failure. If not provided uses default generated failure message. To silence the failure set to `nil`.
+/// - Parameter file: The file in which failure occurred. Defaults to the file name of the test case in which this function was called.
+/// - Parameter line: The line number on which failure occurred. Defaults to the line number on which this function was called.
+/// - Returns: A value of type `Unwrapping`.
+/// - Throws: `UnwrappingError.unableToUnwrap` if unwrapping is unavailable.
+@discardableResult
+public func assertUnwraps<Unwrapping>(
+    _ instance: Unwrapping?,
+    message: String? = "expected \(Unwrapping.self) to be not nil",
+    file: StaticString = #file,
+    line: UInt = #line
+) throws -> Unwrapping {
+    guard let unwrapped = instance else {
+        failIfNeeded(message, file: file, line: line)
+        throw UnwrappingError.unableToUnwrap(type: Unwrapping.self)
     }
-
-    /// Tries to unwrap `instance` of `Type` if possible. Otherwise, throws an error.
-    ///
-    /// - Parameters:
-    ///   - file: File, where this function has been executed.
-    ///   - line: Line in file, where this function has been executed.
-    /// - Returns: Unwrapped value of `Type`.
-    /// - Throws: `UnwrappingError.unableToUnwrap` if unwrapping is unavailable.
-    public func make(file: StaticString = #file, line: UInt = #line) throws -> Type {
-        guard let unwrappedInstance = instance else {
-            Assertion.fail(
-                message: "Unable to unwrap instance of \(Type.self)",
-                executionLocation: ExecutionLocation(file: file, line: line)
-            ).generate(
-                precondition: !isCustomAssertionApplied
-            )
-            throw UnwrappingError.unableToUnwrap(type: Type.self)
-        }
-        return unwrappedInstance
-    }
+    return unwrapped
 }

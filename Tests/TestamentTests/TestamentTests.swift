@@ -1,24 +1,25 @@
 import XCTest
+
 @testable import Testament
 
 class TestamentTests: XCTestCase {
     static var allTests = [
         ("testUnwrapping", testUnwrapping),
-        ("testUnwrappingCustomAssertion", testUnwrappingCustomAssertion),
+        ("testUnwrappingThrows", testUnwrappingThrows),
         ("testCasting", testCasting),
-        ("testCastingCustomAssertion", testCastingCustomAssertion)
+        ("testCastingThrows", testCastingThrows)
     ]
 
     func testUnwrapping() throws {
         let possibleString: String? = "SomeString"
-        let string = try Unwrapping(possibleString).make()
+        let string = try assertUnwraps(possibleString)
         XCTAssert(string == "SomeString")
     }
 
-    func testUnwrappingCustomAssertion() {
+    func testUnwrappingThrows() {
         do {
             let possibleString: String? = "SomeString"
-            let string = try Unwrapping(possibleString, isCustomAssertionApplied: true).make()
+            let string = try assertUnwraps(possibleString, message: nil)
             XCTAssert(string == "SomeString")
         } catch UnwrappingError.unableToUnwrap {
             XCTFail("Error must not be thrown")
@@ -28,7 +29,7 @@ class TestamentTests: XCTestCase {
 
         do {
             let possibleString: String? = nil
-            let _ = try Unwrapping(possibleString, isCustomAssertionApplied: true).make()
+            try assertUnwraps(possibleString, message: nil)
             XCTFail("Error must be already thrown")
         } catch UnwrappingError.unableToUnwrap(let type) {
             XCTAssert(type == String.self)
@@ -39,14 +40,14 @@ class TestamentTests: XCTestCase {
 
     func testCasting() throws {
         let anyInt: Any = 1337
-        let int: Int = try Casting(anyInt).make()
+        let int = try assertCasts(anyInt, to: Int.self)
         XCTAssert(int == 1337)
     }
 
-    func testCastingCustomAssertion() {
+    func testCastingThrows() {
         do {
-            let any: Any = 1337
-            let int: Int = try Casting(any, isCustomAssertionApplied: true).make()
+            let anyInt: Any = 1337
+            let int = try assertCasts(anyInt, to: Int.self, message: nil)
             XCTAssert(int == 1337)
         } catch CastingError.unableToCast {
             XCTFail("Error must not be thrown")
@@ -56,7 +57,7 @@ class TestamentTests: XCTestCase {
 
         do {
             let any: Any = "1337"
-            _ = try Casting<Int>(any, isCustomAssertionApplied: true).make()
+            try assertCasts(any, to: Int.self, message: nil)
             XCTFail("Error must be already thrown")
         } catch CastingError.unableToCast(let instance, let type) {
             XCTAssert(instance as? String == "1337")
