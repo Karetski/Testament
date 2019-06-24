@@ -5,7 +5,7 @@ import XCTest
 class CastingTests: XCTestCase {
     static var allTests = [
         ("testCasting", testCasting),
-        ("testCastingThrows", testCastingThrows)
+        ("testCastingComplex", testCastingComplex)
     ]
 
     func testCasting() throws {
@@ -14,7 +14,7 @@ class CastingTests: XCTestCase {
         XCTAssert(int == 1337)
     }
 
-    func testCastingThrows() {
+    func testCastingComplex() {
         do {
             let anyInt: Any = 1337
             let int = try assertCasts(anyInt, to: Int.self, message: nil)
