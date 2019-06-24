@@ -1,5 +1,6 @@
 public enum ThrowingError: Swift.Error {
     case unableToThrowAny(expressionResultType: Any.Type)
+
     case unableToThrow(errorType: Swift.Error.Type, expressionResultType: Any.Type)
     case unexpectedError(expectedErrorType: Swift.Error.Type, expressionResultType: Any.Type)
 }
@@ -21,6 +22,7 @@ public func assertThrowsAny<Throwing>(
     throw ThrowingError.unableToThrowAny(expressionResultType: Throwing.self)
 }
 
+@discardableResult
 public func assertThrows<Throwing, Error: Swift.Error>(
     _ expression: @autoclosure () throws -> Throwing,
     with: Error.Type,
@@ -41,5 +43,8 @@ public func assertThrows<Throwing, Error: Swift.Error>(
         )
     }
 
-    throw ThrowingError.unableToThrowAny(expressionResultType: Throwing.self)
+    throw ThrowingError.unableToThrow(
+        errorType: Error.self,
+        expressionResultType: Throwing.self
+    )
 }

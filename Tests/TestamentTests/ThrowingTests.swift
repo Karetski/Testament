@@ -21,7 +21,8 @@ private enum Stubs {
 
 class ThrowingTests: XCTestCase {
     static var allTests = [
-        ("testThrowingAny", testThrowingAny)
+        ("testThrowingAny", testThrowingAny),
+        ("testThrowingAnyThrows", testThrowingAnyThrows)
     ]
 
     func testThrowingAny() throws {
@@ -44,6 +45,38 @@ class ThrowingTests: XCTestCase {
             XCTFail("Error must be already thrown")
         } catch ThrowingError.unableToThrowAny(let type) {
             XCTAssertTrue(type == Int.self)
+        } catch {
+            XCTFail("Unexpected error")
+        }
+    }
+
+    func testThrowing() throws {
+        try assertThrows(Stubs.throwAny(), with: Stubs.AnyError.self)
+    }
+
+    func testThrowingThrows() {
+        do {
+            try assertThrows(Stubs.throwAny(), with: Stubs.AnyError.self)
+        } catch {
+            XCTFail("There shouldn't be any errors")
+        }
+
+        do {
+            try assertThrows(Stubs.returnValue(), with: Stubs.AnyError.self, message: nil)
+            XCTFail("Error must be already thrown")
+        } catch ThrowingError.unableToThrow(let expectedErrorType, let expressionResultType) {
+            XCTAssertTrue(expectedErrorType == Stubs.AnyError.self)
+            XCTAssertTrue(expressionResultType == Int.self)
+        } catch {
+            XCTFail("Unexpected error")
+        }
+
+        do {
+            try assertThrows(Stubs.throwAnyOther(), with: Stubs.AnyError.self, message: nil)
+            XCTFail("Error must be already thrown")
+        } catch ThrowingError.unexpectedError(let expectedErrorType, let expressionResultType) {
+            XCTAssertTrue(expectedErrorType == Stubs.AnyError.self)
+            XCTAssertTrue(expressionResultType == Int.self)
         } catch {
             XCTFail("Unexpected error")
         }
