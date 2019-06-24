@@ -5,7 +5,7 @@ import XCTest
 class UnwrappingTests: XCTestCase {
     static var allTests = [
         ("testUnwrapping", testUnwrapping),
-        ("testUnwrappingThrows", testUnwrappingThrows)
+        ("testUnwrappingThrows", testUnwrappingComplex)
     ]
 
     func testUnwrapping() throws {
@@ -14,7 +14,7 @@ class UnwrappingTests: XCTestCase {
         XCTAssert(string == "SomeString")
     }
 
-    func testUnwrappingThrows() {
+    func testUnwrappingComplex() {
         do {
             let possibleString: String? = "SomeString"
             let string = try assertUnwraps(possibleString, message: nil)

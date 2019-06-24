@@ -22,7 +22,11 @@ private enum Stubs {
 class ThrowingTests: XCTestCase {
     static var allTests = [
         ("testThrowingAny", testThrowingAny),
-        ("testThrowingAnyThrows", testThrowingAnyThrows)
+        ("testThrowingAnyComplex", testThrowingAnyComplex),
+        ("testThrowing", testThrowing),
+        ("testThrowingComplex", testThrowingComplex),
+        ("testErrorless", testErrorless),
+        ("testErrorlessComplex", testErrorlessComplex)
     ]
 
     func testThrowingAny() throws {
@@ -30,7 +34,7 @@ class ThrowingTests: XCTestCase {
         XCTAssertTrue(error is Stubs.AnyError)
     }
 
-    func testThrowingAnyThrows() {
+    func testThrowingAnyComplex() {
         do {
             let error = try assertThrowsAny(try Stubs.throwAny())
             XCTAssertTrue(error is Stubs.AnyError)
@@ -54,7 +58,7 @@ class ThrowingTests: XCTestCase {
         try assertThrows(Stubs.throwAny(), with: Stubs.AnyError.self)
     }
 
-    func testThrowingThrows() {
+    func testThrowingComplex() {
         do {
             try assertThrows(Stubs.throwAny(), with: Stubs.AnyError.self)
         } catch {
@@ -77,6 +81,29 @@ class ThrowingTests: XCTestCase {
         } catch ThrowingError.unexpectedError(let expectedErrorType, let expressionResultType) {
             XCTAssertTrue(expectedErrorType == Stubs.AnyError.self)
             XCTAssertTrue(expressionResultType == Int.self)
+        } catch {
+            XCTFail("Unexpected error")
+        }
+    }
+
+    func testErrorless() throws {
+        let int = try assertErrorless(Stubs.returnValue())
+        XCTAssertTrue(int == 0)
+    }
+
+    func testErrorlessComplex() {
+        do {
+            let int = try assertErrorless(Stubs.returnValue())
+            XCTAssertTrue(int == 0)
+        } catch {
+            XCTFail("There shouldn't be any errors")
+        }
+
+        do {
+            try assertErrorless(Stubs.throwAny(), message: nil)
+            XCTFail("Error must be already thrown")
+        } catch ThrowingError.unableToInvokeErrorless(let expectedResultType) {
+            XCTAssertTrue(expectedResultType == Int.self)
         } catch {
             XCTFail("Unexpected error")
         }
