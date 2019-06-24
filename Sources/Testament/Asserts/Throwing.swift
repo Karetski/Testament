@@ -4,6 +4,7 @@ public enum ThrowingError: Swift.Error {
     case unexpectedError(expectedErrorType: Swift.Error.Type, expressionResultType: Any.Type)
 }
 
+@discardableResult
 public func assertThrowsAny<Throwing>(
     _ expression: @autoclosure () throws -> Throwing,
     message: String? = "expected expression with result \(Throwing.self) to throw any error",
@@ -12,12 +13,12 @@ public func assertThrowsAny<Throwing>(
 ) throws -> Error {
     do {
         _ = try expression()
-
         failIfNeeded(message, file: file, line: line)
-        throw ThrowingError.unableToThrowAny(expressionResultType: Throwing.self)
     } catch {
         return error
     }
+
+    throw ThrowingError.unableToThrowAny(expressionResultType: Throwing.self)
 }
 
 public func assertThrows<Throwing, Error: Swift.Error>(
@@ -29,9 +30,7 @@ public func assertThrows<Throwing, Error: Swift.Error>(
 ) throws -> Error {
     do {
         _ = try expression()
-
         failIfNeeded(message, file: file, line: line)
-        throw ThrowingError.unableToThrowAny(expressionResultType: Throwing.self)
     } catch let expectedError as Error {
         return expectedError
     } catch {
@@ -41,4 +40,6 @@ public func assertThrows<Throwing, Error: Swift.Error>(
             expressionResultType: Throwing.self
         )
     }
+
+    throw ThrowingError.unableToThrowAny(expressionResultType: Throwing.self)
 }
