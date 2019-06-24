@@ -25,7 +25,7 @@ If you want to use Testament via Carthage please follow [the link.](https://full
 
 There is a problem when we, developers, writing tests for optionals in Swift. This problem is widely described [here.](https://www.natashatherobot.com/unit-testing-optionals-in-swift-xctassertnotnil/) 
 
-The main point of this framework is to transform the following construction:
+The main point of this tool is to transform the following construction:
 ```
 if let string = optionalString {
     XCTAssert(string == "Testament")
@@ -35,14 +35,16 @@ if let string = optionalString {
 ```
 Into readable and useful:
 ```
-let string = try Unwrapping(optionalString).make()
+let string = try assertUnwraps(optionalString)
 XCTAssert(string == "Testament")
 ```
-It also works with type casting:
-```
-let int: Int = try Casting(anyInt).make()
-XCTAssert(int == 1337)
-```
+*Note that your test case needs to be marked with `throws` if it uses Testament operators*
+
+## Should you use it?
+
+In Xcode 11 Apple added `XCTUnwrap` that uses quite the same approach for unwrapping, so for the most cases it should be enough, and you don't really need Testament.
+
+On the other hand is that Testament has better semantical meaning with support of `assertCasts`, `assertThrows`, `assertThrowsAny` and `assertErrorless` in addition to `assertUnwraps` with fully descriptive failure reasons. So if you're interested in described operators or don't support Xcode 11 yet, then Testament is a great tool for you.
 
 ## License
 
