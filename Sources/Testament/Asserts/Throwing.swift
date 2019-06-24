@@ -3,6 +3,8 @@ public enum ThrowingError: Swift.Error {
 
     case unableToThrow(errorType: Swift.Error.Type, expressionResultType: Any.Type)
     case unexpectedError(expectedErrorType: Swift.Error.Type, expressionResultType: Any.Type)
+
+    case unableToInvokeErrorless(expectedResultType: Any.Type)
 }
 
 @discardableResult
@@ -48,3 +50,19 @@ public func assertThrows<Throwing, Error: Swift.Error>(
         expressionResultType: Throwing.self
     )
 }
+
+@discardableResult
+func assertErrorless<Expectation>(
+    _ expression: @autoclosure () throws -> Expectation,
+    message: String? = "expected expression with result \(Expectation.self) to be errorless",
+    file: StaticString = #file,
+    line: UInt = #line
+) throws -> Expectation {
+    do {
+        return try expression()
+    } catch {
+        failIfNeeded(message, file: file, line: line)
+        throw ThrowingError.unableToInvokeErrorless(expectedResultType: Expectation.self)
+    }
+}
+
