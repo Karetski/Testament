@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "Testament"
-  s.version = "1.0.0"
+  s.version = "2.0.1"
   s.summary = "Correct Unit Testing for basic Swift constructions."
 
   s.homepage = "https://github.com/Karetski/Testament.git"
