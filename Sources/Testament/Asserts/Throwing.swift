@@ -74,7 +74,7 @@ public func assertThrows<Throwing, Error: Swift.Error>(
 /// - Returns: Resulting value of the `expression`.
 /// - Throws: `ThrowingError.unableToInvokeErrorless` if expression is invoked with error.
 @discardableResult
-func assertErrorless<Expectation>(
+public func assertErrorless<Expectation>(
     _ expression: @autoclosure () throws -> Expectation,
     message: String? = "expected expression with result \(Expectation.self) to be errorless",
     file: StaticString = #file,
