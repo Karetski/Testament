@@ -25,6 +25,6 @@ Pod::Spec.new do |s|
   s.user_target_xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
   s.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
   
-  s.swift_version = '4.1.2'
+  s.swift_version = '5.0'
   s.cocoapods_version = '>= 1.4.0'
 end
