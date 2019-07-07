@@ -9,7 +9,7 @@ Testament is a microframework that gives you convenient constructions to write c
 
 If you use Swift Package Manager, simply add Testament as a dependency of your package in `Package.swift`:
 ```
-.package(url: "https://github.com/Karetski/Testament.git", from: "2.0.0")
+.package(url: "https://github.com/Karetski/Testament.git", .upToNextMajor(from: "2.0.0"))
 ```
 
 #### CocoaPods
